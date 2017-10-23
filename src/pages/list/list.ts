@@ -1,7 +1,7 @@
 //List component
 
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { Store } from '@ngrx/store'; 
 import { Observable } from 'rxjs/rx';
 import { ToastController } from 'ionic-angular';
@@ -25,7 +25,7 @@ export class ListPage {
   loading: boolean;
   loadUsersError$: Observable<any>;
 
-  constructor(public navCtrl: NavController, private store: Store<AppState>, private usersEffects: UsersEffects, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<AppState>, private usersEffects: UsersEffects, public toastCtrl: ToastController) {
     //Suscribes to the users state, when it changes (receives new data)
     //it stops the infinite scroll
   	this.store.select('users').subscribe(usersList => {
@@ -83,10 +83,10 @@ export class ListPage {
   }
 
   openDetail(login:string) {
-    //On tap of a user on the list, it dispatches the LoadCurrentUserAction
-    //to load the details of the selected user
-    this.store.dispatch(new currentuser.LoadCurrentUserAction(login));
+    //Set Nav Params with the selected user's username
     //Then it moves to the user search tab
+    let container: { login: string } = this.navParams.data;
+    container.login = login;
     this.navCtrl.parent.select(1);
   }
 

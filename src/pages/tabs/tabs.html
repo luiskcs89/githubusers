@@ -1,4 +1,4 @@
 <ion-tabs>
-  <ion-tab [root]="tab1Root" tabTitle="List" tabIcon="list"></ion-tab>
-  <ion-tab [root]="tab2Root" tabTitle="User Search" tabIcon="contact" (ionSelect)="clearCurrentUser()"></ion-tab>
+  <ion-tab [root]="tab1Root" [rootParams]="searchParams" tabTitle="List" tabIcon="list"></ion-tab>
+  <ion-tab [root]="tab2Root" [rootParams]="searchParams" tabTitle="User Search" tabIcon="contact" (ionSelect)="clearCurrentUser()"></ion-tab>
 </ion-tabs>

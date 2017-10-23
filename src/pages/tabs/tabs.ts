@@ -17,6 +17,8 @@ export class TabsPage {
   tab1Root = ListPage;
   tab2Root = UserSearchPage;
 
+  searchParams: { login?: string } = {};
+
   constructor(private store: Store<AppState>) {
 
   }
@@ -24,6 +26,7 @@ export class TabsPage {
   clearCurrentUser() {
   	//When opening the User Search with the tab bar, it dispatches
   	//the ClearCurrentUserAction to clear the currentuser state
+    this.searchParams.login = null;
   	this.store.dispatch(new currentuser.ClearCurrentUserAction());
   }
 }

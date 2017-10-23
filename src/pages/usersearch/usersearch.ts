@@ -1,7 +1,7 @@
 //User Search component
 
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { Store } from '@ngrx/store'; 
 import { Observable } from 'rxjs/rx';
 
@@ -25,20 +25,13 @@ export class UserSearchPage {
   loading: boolean;
   loadCurrentUserError$: Observable<any>;
 
-  constructor(public navCtrl: NavController, private store: Store<AppState>, private iab: InAppBrowser, private currentUserEffects: CurrentUserEffects) {
-    this.loading = true;
-    this.error = null;
+  constructor(public navCtrl: NavController, public navParams: NavParams, private store: Store<AppState>, private iab: InAppBrowser, private currentUserEffects: CurrentUserEffects) {
     //Suscribes to the users state, if it is populated it populates the
     //search bar with the current user's login name, else it clears it
     this.store.select('currentUser').subscribe(data => {
-  		this.currentUser = data;
+      this.currentUser = data;
       this.error = null;
       this.loading = false;
-  		if(this.currentUser && this.currentUser.login) {
-  			this.search = this.currentUser.login;
-  		} else {
-        this.search = "";
-      }
   	});
 
     //Suscribe to the Error Effect and Action to handle errors
@@ -52,10 +45,22 @@ export class UserSearchPage {
     });
   }
 
+  ionViewWillEnter() {
+    //When entering get username from Nav Params and search for the user
+    //when it comes from the list page, else set search bar string empty
+    if(this.navParams && this.navParams.data.login) {
+      this.search = this.navParams.data.login;
+      this.doSearch();
+    }
+    else {
+      this.search = "";
+    }
+  }
+
   doSearch() {
   	//Loads the user data based on the search string
-    //This button was added just to not send a lot of requests to the API
-    //and thus avoiding reaching the rate limit too fast
+    //(The GO! button was added just to not send a lot of requests to the API
+    //and thus avoiding reaching the rate limit too fast)
     this.currentUser = null;
     this.loading = true;
     this.store.dispatch(new currentuser.LoadCurrentUserAction(this.search));
