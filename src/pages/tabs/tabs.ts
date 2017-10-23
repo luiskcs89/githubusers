@@ -1,3 +1,5 @@
+//Tabs component
+
 import { Component } from '@angular/core';
 
 import { ListPage } from '../list/list';
@@ -20,7 +22,8 @@ export class TabsPage {
   }
 
   clearCurrentUser() {
-  	console.log("clear");
+  	//When opening the User Search with the tab bar, it dispatches
+  	//the ClearCurrentUserAction to clear the currentuser state
   	this.store.dispatch(new currentuser.ClearCurrentUserAction());
   }
 }

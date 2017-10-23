@@ -1,3 +1,5 @@
+//User service
+
 import { Injectable } from '@angular/core';  
 import { Observable } from 'rxjs/rx';
 import { User } from '../models/user';

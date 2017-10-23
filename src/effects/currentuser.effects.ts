@@ -1,3 +1,5 @@
+//Effects for the currentUser State
+
 import { Injectable } from '@angular/core';  
 import { Effect, toPayload, Actions } from '@ngrx/effects';  
 import { Observable } from 'rxjs/rx';
@@ -14,13 +16,14 @@ export class CurrentUserEffects {
         private svc: UserService
     ) { }
 
+    //Starts by the LoadCurrentUserAction
     @Effect() loadCurrentUser$ = this.actions$
     .ofType(currentuser.LOAD_CURRENT_USER)
     .switchMap((action: currentuser.LoadCurrentUserAction) => {
-        console.log('in the first switchMap!');
+      //Gets the user data based on its login name
       return this.svc.getUser(action.login);    
     }).switchMap(result => {
-      console.log(result);
+      //Starts the LoadCurrentUserSuccessAction
       return Observable.of(new currentuser.LoadCurrentUserSuccessAction(result))
     })
 

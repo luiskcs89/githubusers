@@ -1,3 +1,5 @@
+//Effects for the users State
+
 import { Injectable } from '@angular/core';  
 import { Effect, toPayload, Actions } from '@ngrx/effects';  
 import { Observable } from 'rxjs/rx';
@@ -14,24 +16,15 @@ export class UsersEffects {
         private svc: UserService
     ) { }
 
+    //Starts by the LoadUsersAction
     @Effect() loadUsers$ = this.actions$
     .ofType(users.LOAD_USERS)
     .switchMap((action: users.LoadUsersAction) => {
-        console.log('in the first switchMap!');
+      //Gets the users data
       return this.svc.getUsers(action.since);    
     }).switchMap(result => {
-      console.log(result);
+      //Starts the LoadUsersSuccessAction
       return Observable.of(new users.LoadUsersSuccessAction(result))
-    })
-
-    @Effect() loadUser$ = this.actions$
-    .ofType(users.LOAD_USER)
-    .switchMap((action: users.LoadUserAction) => {
-        console.log('in the first switchMap!');
-      return this.svc.getUser(action.login);    
-    }).switchMap(result => {
-      console.log(result);
-      return Observable.of(new users.LoadUserSuccessAction(result))
     })
 
 }
