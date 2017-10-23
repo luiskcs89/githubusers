@@ -1,6 +1,5 @@
 //currentuser state reducer
 
-import { ActionReducer, Action } from '@ngrx/store';
 import * as currentuser from '../actions/currentuser.actions';
 
 export function CurrentUserReducer(state = [], action) {  

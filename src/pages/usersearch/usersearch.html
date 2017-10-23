@@ -5,7 +5,7 @@
     </ion-title>
   </ion-navbar>
   <ion-toolbar>
-    <ion-searchbar [(ngModel)]="search"></ion-searchbar>
+    <ion-searchbar [(ngModel)]="search" placeholder="Search by username"></ion-searchbar>
     <ion-buttons end>
       <button ion-button color="primary" outline (click)="doSearch()">
         GO!
@@ -15,6 +15,12 @@
 </ion-header>
 
 <ion-content padding>
+  <div text-center *ngIf="loading">
+    <ion-spinner></ion-spinner>
+  </div>
+  <div text-center *ngIf="!currentUser && !loading && !error">
+    <p>Hi! Type a github user's username on the searchbar and tap <b>GO!</b> to see his/her details</p>
+  </div>
   <div *ngIf="currentUser">
     <div text-center *ngIf="currentUser.avatar_url">
       <img [src]="currentUser.avatar_url">
@@ -29,5 +35,10 @@
         Visit Website
       </button>
     </div>
+  </div>
+  <div *ngIf="error">
+    <p *ngIf="error.status == 403" text-center>API rate limit exceeded, please try again later</p>
+    <p *ngIf="error.status == 404" text-center>We couldn't find a user with that username, check it and try again</p>
+    <p *ngIf="error.status == 0" text-center>There was a connection error, please check your internet connection and try again</p>
   </div>
 </ion-content>

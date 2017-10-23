@@ -7,6 +7,18 @@
 </ion-header>
 
 <ion-content padding>
+	<div text-center *ngIf="loading">
+		<ion-spinner></ion-spinner>
+	</div>
+	<div *ngIf="error && (!users || users.length == 0)">
+    	<p *ngIf="error.status == 403" text-center>API rate limit exceeded, please try again later</p>
+    	<p *ngIf="error.status == 0" text-center>There was a connection error, please check your internet connection and try again</p>
+    	<div text-center>
+	      <button ion-button (click)="initUsers()">
+	        Try Again
+	      </button>
+	    </div>
+  	</div>
   	<ion-list>
 	  	<ion-item *ngFor="let user of users" [userDetails]="user" (click)="openDetail(user.login)">
 	    	<ion-avatar item-start>
@@ -15,6 +27,14 @@
 	    	<h2>{{user.login}}</h2>
 	  	</ion-item>
 	</ion-list>
+
+	<div *ngIf="error && users && users.length > 0">
+    	<div text-center>
+	      <button ion-button (click)="loadMoreUsers()">
+	        Try Again
+	      </button>
+	    </div>
+  	</div>
 
 	<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
 		<ion-infinite-scroll-content></ion-infinite-scroll-content>
