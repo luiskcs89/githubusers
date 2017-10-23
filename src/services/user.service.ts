@@ -13,7 +13,7 @@ export class UserService {
     }
 
     getUser(login:string): Observable<User> {
-        return this.http.get('https://api.github.com/users/' + login)
+        return this.http.get('https://api.github.com/users/'+login)
         .map(res => res.json());
     }
 }

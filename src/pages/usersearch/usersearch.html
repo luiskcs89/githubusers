@@ -1,11 +1,33 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      User/Search
+      User Search
     </ion-title>
   </ion-navbar>
+  <ion-toolbar>
+    <ion-searchbar [(ngModel)]="search"></ion-searchbar>
+    <ion-buttons end>
+      <button ion-button color="primary" outline (click)="doSearch()">
+        GO!
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-
+  <div *ngIf="currentUser">
+    <div text-center *ngIf="currentUser.avatar_url">
+      <img [src]="currentUser.avatar_url">
+    </div>
+    <h1 *ngIf="currentUser.name" text-center>{{currentUser.name}}</h1>
+    <p *ngIf="currentUser.location" text-center>{{currentUser.location}}</p>
+    <p *ngIf="currentUser.company" text-center>{{currentUser.company}}</p>
+    <p *ngIf="currentUser.bio">{{currentUser.bio}}</p>
+    <div text-center *ngIf="currentUser.blog">
+      <button ion-button icon-left (click)="openWebsite(currentUser.blog)">
+        <ion-icon name="globe"></ion-icon>
+        Visit Website
+      </button>
+    </div>
+  </div>
 </ion-content>
